@@ -1,16 +1,22 @@
 var express = require('express');
 var router = express.Router();
-var session = require('express-session');
-
+const session = require('express-session');
+let options = {
+    name: 'Cookie',
+    secret: 'cookiesecret'
+    //etc
+}
+router.use(session(options));
 
 router.get('/',function(req,res){
-    req.session.destroy(function(err) {
-        if(err) {
-            console.log(err);
-        } else {
-            res.render('login');
-        }
-    });
+    console.log("logout");
+    if (req.session) {
+        req.session.destroy(function(err) {
+            if (err) return console.log(err);
+            return res.redirect('/login');
+        });
+    }
+
 });
 
 module.exports = router;

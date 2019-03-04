@@ -34,6 +34,13 @@ app.use('/loginSave', loginRouter);
 app.use('/registration', registerRouter);
 app.use('/enableAccount', registerRouter);
 
+//session
+let options = {
+    name: 'Cookie',
+    secret: 'cookiesecret'
+    //etc
+}
+app.use(session(options));
 
 //sequelize
 const database = require('./services/sequelize');

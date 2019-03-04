@@ -3,8 +3,12 @@ var router = express.Router();
 var session = require('express-session');
 var database =require('../services/sequelize');
 const bcrypt = require('bcrypt');
-router.use(session({secret: 'ssshhhhh'}));
-
+let options = {
+    name: 'Cookie',
+    secret: 'cookiesecret'
+    //etc
+}
+router.use(session(options));
 
 
 router.get('/', function(req,res){
