@@ -1,0 +1,47 @@
+<h1>{{title}}</h1>
+<p>Please enter your information to create new account</p>
+<div class="col-md-12" align="center">
+
+<form method="post" action="/registration">
+    <div class="col-md-12">
+        <label for="name">Name:</label>
+    </div>
+    <div class="col-md-12">
+        <input type="text" id="name" name="name" required></br>
+    </div>
+
+    <div class="col-md-12">
+     <label for="firstname">Firstname :</label>
+    </div>
+    <div class="col-md-12">
+    <input type="text" id="firstname" name="firstname" required>
+    </div>
+
+    <div class="col-md-12">
+        <label for="email">Email:</label>
+    </div>
+    <div class="col-md-12">
+        <input type="email" id="email" name="email" required>
+    </div>
+
+    <div class="col-md-12">
+         <label for="password">Password (4 to 8 characters):</label>
+        </div>
+    <div class="col-md-12">
+        <input type="password" id="password" name="password" required>
+    </div>
+
+     <div class="col-md-12">
+        <label for="username">Username (4 to 8 characters):</label>
+     </div>
+    <div class="col-md-12">
+        <input type="text" id="username" name="username" required>
+     </div>
+
+    <input type="submit" value="Envoi">
+
+</form>
+    <h2>{{error}}</h2>
+</div>
+
+
