@@ -1,15 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var session = require('express-session');
-var database =require('../services/sequelize');
+const express = require('express');
+const router = express.Router();
+const database =require('../services/sequelize');
 const bcrypt = require('bcrypt');
-let options = {
-    name: 'Cookie',
-    secret: 'cookiesecret'
-    //etc
-}
-router.use(session(options));
-
 
 router.get('/', function(req,res){
     res.render('login', { title: 'Sign in' });
@@ -40,8 +32,9 @@ router.post('/', function (req,res){
 
             var sess=req.session;
             sess.username=req.body.username;
+            sess.role=userLogin.role;
 
-            res.render('sign_in');
+            res.redirect('index');
 
         }
 

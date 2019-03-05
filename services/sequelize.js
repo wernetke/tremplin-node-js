@@ -12,10 +12,10 @@ const databaseService = {
     init(){
 
         this.models.user=require('../model/user')(this.sequelize, this.models, type);
-       /* this.models.user=require('../models/user')(this.sequelize, this.models, type);
-        this.models.category=require('../models/category')(this.sequelize, this.models, type);
-        this.models.tag=require('../models/tag')(this.sequelize, this.models, type);
-        this.models.comment=require('../models/comment')(this.sequelize, this.models, type);*/
+        this.models.article=require('../model/article')(this.sequelize, this.models, type);
+        this.models.category=require('../model/category')(this.sequelize, this.models, type);
+        this.models.tag=require('../model/tag')(this.sequelize, this.models, type);
+        this.models.commentary=require('../model/commentary')(this.sequelize, this.models, type);
 
 
 

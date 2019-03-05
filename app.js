@@ -1,18 +1,31 @@
 var createError = require('http-errors');
 var express = require('express');
-var session = require('express-session');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var registerRouter = require('./routes/register');
-var loginRouter = require ('./routes/login');
-var logoutRouter = require ('./routes/logout');
+const session = require('express-session');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const registerRouter = require('./routes/register');
+const loginRouter = require ('./routes/login');
+const logoutRouter = require ('./routes/logout');
+const articleRouter =  require ('./routes/article');
+const categoryRouter =  require ('./routes/category');
 
 
 var app = express();
+app.engine('.ejs', require('ejs').__express);
 
+let options = {
+    name: 'Cookie',
+    secret: 'cookiesecret'
+    //etc
+}
+app.use(session(options));
+
+
+app.use(checkConnexion);
+app.use(checkAdmin);
 
 
 // view engine setup
@@ -26,21 +39,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
-app.use('/loginSave', loginRouter);
 app.use('/registration', registerRouter);
 app.use('/enableAccount', registerRouter);
+app.use('/article', articleRouter);
+app.use('/category', categoryRouter);
 
-//session
-let options = {
-    name: 'Cookie',
-    secret: 'cookiesecret'
-    //etc
-}
-app.use(session(options));
+
 
 //sequelize
 const database = require('./services/sequelize');
@@ -54,6 +63,32 @@ database.init().then(()=> {
 });
 
 
+function checkConnexion(req,res,next){
+
+    if (typeof req.session.username === 'undefined') {
+
+        app.locals.checkconnexion = false;
+        next();
+    }
+    else{
+        app.locals.hello = req.session.username;
+        app.locals.checkconnexion = true;
+        next();
+    }
+}
+
+function checkAdmin(req,res,next){
+
+
+    if(req.session.role === 1){
+        app.locals.checkAdmin = true;
+        next();
+    }
+    else{
+        app.locals.checkAdmin = false;
+        next();
+    }
+}
 
 
 

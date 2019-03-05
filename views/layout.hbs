@@ -26,6 +26,21 @@
               <li class="nav-item-right">
                   <a class="nav-link" href="/register">Register</a>
               </li>
+              <li class="nav-item-right">
+                  <a class="nav-link" href="/dashboard">Dashboard</a>
+              </li>
+              {{#if checkconnexion}}
+                  {{#if checkAdmin}}
+
+              <li class="nav-item-right">
+                  <a class="nav-link" href="/article">Article</a>
+              </li>
+              <li class="nav-item-right">
+                  <a class="nav-link" href="/category">Category</a>
+              </li>
+                  {{/if}}
+            {{/if}}
+
               <form class="form-inline my-2 my-lg-0" method="get" action="/logout">
                   <li class="nav-item-right">
                       <button type="submit" class="btn btn-danger">Log out</button>
@@ -40,6 +55,13 @@
       </div>
   </nav>
   <body>
-    {{{body}}}
+{{#if checkconnexion}}
+  <div class="col-md-12 col-lg-12" align="center">
+      <div class="col-md-2 offset-md-10"><p>Hello {{{hello}}}</p></div>
+  </div>
+{{/if}}
+
+
+{{{body}}}
   </body>
 </html>

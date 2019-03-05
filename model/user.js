@@ -12,9 +12,7 @@ module.exports = (sequelize, models, DataTypes) => {
 
     });
 
-   /* User.associate = function(models) {
-        models.User.hasMany(models.Task);
-    }; */
+
 
     return User;
 };
