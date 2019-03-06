@@ -1,0 +1,28 @@
+<h1>{{title}}</h1>
+
+<div class="col-md-12 col-lg-12" align="center">
+    <form method="post" action="/category/updateCategoryConfirm">
+
+        <div class="col-md-12">
+            <label for="name">Name:</label>
+        </div>
+
+        <div class="col-md-12">
+            <input type="text" id="name" name="name" value="{{categoryID.name}}" required>
+        </div>
+
+        <div class="col-md-12">
+            <input type="hidden" id="id" name="id" value="{{categoryID.id}}" required>
+        </div></br>
+
+
+        <input type="submit" value="Update">
+
+
+    </form>
+
+
+</div>
+
+<h2>{{error}}</h2>
+</div>

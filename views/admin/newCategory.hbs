@@ -1,0 +1,21 @@
+<h1>{{title}}</h1>
+
+<p>Please enter informations to create new category</p>
+<div class="col-md-12" align="center">
+
+    <form method="post" action="/category/createCategory">
+
+
+        <div class="col-md-12">
+            <label for="name">Name:</label>
+        </div>
+        <div class="col-md-12">
+            <input type="text" id="name" name="name" required>
+        </div></br>
+
+        <input type="submit" value="Envoi">
+
+    </form>
+    <h2>{{success}}</h2>
+    <h2>{{error}}</h2>
+</div>

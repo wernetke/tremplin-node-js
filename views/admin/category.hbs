@@ -1,0 +1,25 @@
+<h1>{{title}}</h1>
+<div class="col-md-12 col-lg-12" align="center">
+    <div class="col-md-2 offset-md-10"><a href="/category/newCategory">New Category</a></div>
+</div>
+
+<div class="col-md-12 col-lg-12" align="center">
+    <form method="post" action="/category/updateCategory">
+        <label for="cat-select">Select category:</label>
+
+        <select id="cat-select" name="categorySelect">
+        {{#each select_category}}
+            <option value="{{name}}">{{name}}</option>
+        {{/each}}
+        </select></br>
+
+        <input type="submit" value="Envoi">
+
+
+    </form>
+
+
+</div>
+    <h2>{{success}}</h2>
+    <h2>{{error}}</h2>
+</div>

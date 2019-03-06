@@ -13,6 +13,7 @@ const articleRouter =  require ('./routes/article');
 const categoryRouter =  require ('./routes/category');
 
 
+
 var app = express();
 app.engine('.ejs', require('ejs').__express);
 
@@ -28,6 +29,7 @@ app.use(checkConnexion);
 app.use(checkAdmin);
 
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -39,6 +41,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+
+
 app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/register', registerRouter);
@@ -46,9 +50,8 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/registration', registerRouter);
 app.use('/enableAccount', registerRouter);
-app.use('/article', articleRouter);
 app.use('/category', categoryRouter);
-
+app.use('/admin', indexRouter);
 
 
 //sequelize
@@ -89,6 +92,8 @@ function checkAdmin(req,res,next){
         next();
     }
 }
+
+
 
 
 

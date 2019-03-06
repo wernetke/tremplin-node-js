@@ -6,16 +6,16 @@ const bcrypt = require('bcrypt');
 
 
 
+
 router.get('/', function(req,res){
      res.render('register', { title: 'registration' });
 });
 
-router.post('/', function(req, res) {
+router.post('/', function(req, res, next) {
 
 
 
     return database.models.user.findAll({where: {username: req.body.username} }).then( (users) => {
-        console.log(typeof users.length);
         if(/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(req.body.password)) {
 
             if (users.length < 1) {
@@ -39,12 +39,10 @@ router.post('/', function(req, res) {
             }
         }
         else {
-            res.render('register', {error: 'Passwords must be  ' +
-                ' * - At least 8 characters long, max length anything' +
-                ' * - Include at least 1 lowercase letter' +
-                ' * - 1 capital letter' +
-                ' * - 1 number' +
-                ' * - 1 special character => !@#$%^&* '});
+
+
+            res.render('register', {error: 'Your password has not the good format'});
+
         }
     });
 

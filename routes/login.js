@@ -4,12 +4,14 @@ const database =require('../services/sequelize');
 const bcrypt = require('bcrypt');
 
 router.get('/', function(req,res){
-    res.render('login', { title: 'Sign in' });
+    console.log("sign_up");
+        res.render('login',{title: "Sign in"});
 });
 
 
 
-router.post('/', function (req,res){
+router.post('/signSave', function (req,res){
+
     return database.models.user.findOne({where: {username: req.body.username} }).then( (userLogin) => {
 
 
@@ -33,8 +35,7 @@ router.post('/', function (req,res){
             var sess=req.session;
             sess.username=req.body.username;
             sess.role=userLogin.role;
-
-            res.redirect('index');
+            res.redirect('/index');
 
         }
 
