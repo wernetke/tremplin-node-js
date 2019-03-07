@@ -57,7 +57,7 @@ router.post('/createCategory', function(req,res) {
                     name: req.body.name
 
                 });
-                res.render('admin/newCategory', {success: 'Creation is succeeded'});
+                res.render('admin/newCategory', {success: 'Creation with success'});
 
             }
             else{

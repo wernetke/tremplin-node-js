@@ -34,6 +34,7 @@ router.post('/signSave', function (req,res){
 
             var sess=req.session;
             sess.username=req.body.username;
+            sess.ID=userLogin.id;
             sess.role=userLogin.role;
             res.redirect('/index');
 

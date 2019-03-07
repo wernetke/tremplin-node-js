@@ -5,7 +5,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const registerRouter = require('./routes/register');
 const loginRouter = require ('./routes/login');
 const logoutRouter = require ('./routes/logout');
@@ -44,13 +43,13 @@ app.use('/', indexRouter);
 
 
 app.use('/index', indexRouter);
-app.use('/users', usersRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/registration', registerRouter);
 app.use('/enableAccount', registerRouter);
 app.use('/category', categoryRouter);
+app.use('/article', articleRouter);
 app.use('/admin', indexRouter);
 
 

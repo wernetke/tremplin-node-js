@@ -1,0 +1,41 @@
+<h1>{{title}}</h1>
+
+<p>Please enter informations to create new category</p>
+<div class="col-md-12" align="center">
+
+    <form method="post" enctype="multipart/form-data" action="/article/createArticle">
+
+
+        <div class="col-md-12">
+            <label for="title">Title:</label>
+        </div>
+        <div class="col-md-12">
+            <input type="text" id="title" name="title" required>
+        </div></br>
+
+        <select id="cat-select" name="categorySelect">
+            {{#each select_category}}
+                <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select></br>
+
+        <div class="col-md-12">
+            <label for="desc">Description:</label>
+        </div>
+        <div class="col-md-12">
+            <input type="text" id="desc" name="desc" required>
+        </div></br>
+
+        <div class="col-md-12">
+            <label for="file">Picture:</label>
+        </div>
+        <div class="col-md-12">
+            <input type="file" name="file" required>
+        </div></br>
+
+        <input type="submit" value="Envoi">
+
+    </form>
+    <h2>{{success}}</h2>
+    <h2>{{error}}</h2>
+</div>
