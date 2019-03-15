@@ -19,11 +19,40 @@ router.get('/newCategory', function(req,res){
 });
 
 router.post('/updateCategory', function(req,res){
-    console.log(req.body.categorySelect);
-    return database.models.category.findOne({where: {name: req.body.categorySelect} }).then( categoryID => {
-        console.log(categoryID);
-        res.render('admin/updateCategory', {title: 'Update category',categoryID});
-    });
+    console.log(req.body.butt);
+
+    if(req.body.butt === "1") {
+
+        return database.models.category.findOne({where: {id: req.body.categorySelect} }).then( categoryID => {
+            console.log(categoryID);
+            res.render('admin/updateCategory', {title: 'Update category',categoryID});
+        });
+
+    }
+    else if (req.body.butt === "2") {
+
+
+        return database.models.article.findAll({where: {categoryID: req.body.categorySelect} }).then( articleFind => {
+
+            if (articleFind.length > 0)
+            {
+
+                return database.models.category.findAll().then( (select_category) => {
+                    res.render('admin/category', {error: 'There are still article associated to this category, please to delete article before delete this category',title:'List of category' ,select_category});
+                });
+
+
+            }else{
+                database.models.category.destroy({
+                    where: {  id: req.body.categorySelect}
+                });
+                res.redirect('/category');
+
+            }
+
+        });
+
+    }
 });
 
 router.post('/updateCategoryConfirm', function(req,res){
@@ -57,7 +86,7 @@ router.post('/createCategory', function(req,res) {
                     name: req.body.name
 
                 });
-                res.render('admin/newCategory', {success: 'Creation with success'});
+                res.render('admin/newCategory', {title: 'Create a category', success: 'Creation with success'});
 
             }
             else{
@@ -71,6 +100,8 @@ router.post('/createCategory', function(req,res) {
 
     }
 });
+
+
 
 
 module.exports = router;

@@ -2,18 +2,18 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const router = express.Router();
 const database =require('../services/sequelize');
-var validator = require('validator');
-var multer = require("multer");
-var functions = require ('../controller/base64file');
+const validator = require('validator');
 
-var upload = multer({
-    dest: "../public/images"
-});
 router.use(fileUpload());
 
 
+
 router.get('/', function(req,res){
-        res.render('admin/article', {success: 'Update with success',title:'List of article' ,});
+    console.log("ok");
+    return database.models.article.findAll().then( (select_article) => {
+
+        res.render('admin/article', {success: 'Update with success',title:'List of article' , select_article});
+    });
 });
 
 router.get('/newArticle', function(req,res){
@@ -24,10 +24,35 @@ router.get('/newArticle', function(req,res){
     });
 });
 
+router.post('/createTag', function(req,res){
+    console.log("createTag");
+    if ( !validator.isEmpty(req.body.tag)) {
+        return database.models.tag.create({
+            name: req.body.tag,
+            raw:true
+
+        }).then((tag) => {
+            res.send({tag});
+        });
+    }
+
+
+
+});
+
+router.post('/deleteTag', function(req,res){
+    console.log("deleteTag");
+    const tagIDsend =  req.body.tagID;
+     database.models.articleTag.destroy({
+        where: {  tagID: req.body.tagID, articleID: req.body.articleID,}
+    });
+    res.send(tagIDsend);
+
+
+});
+
 router.post('/createArticle', function(req,res) {
-    console.log(req.files.file.name);
-    var base64pictureArticle = Buffer.from(req.files.file.data).toString('base64');
-    console.log(base64pictureArticle);
+    let  base64pictureArticle = Buffer.from(req.files.file.data).toString('base64');
     if ( validator.isEmpty(req.body.title)) {
         res.render('admin/newCategory', {error: 'Title is empty'});
     }
@@ -39,19 +64,36 @@ router.post('/createArticle', function(req,res) {
     }
     else{
         console.log("creation");
+        var data = req.body.tagloopid;
+
 
         return database.models.article.findAll({where: {title: req.body.title} }).then( (articleTitle) => {
             if (articleTitle.length < 1) {
 
-                database.models.article.create({
+
+               return database.models.article.create({
                     title: req.body.title,
-                    desc: req.body.desc,
+                    description: req.body.desc,
                     categoryID: req.body.categorySelect,
                     image: base64pictureArticle,
                     userID: req.session.ID
 
+                }).then( (articleTitleTag) => {
+                       for (var i = 0, len = data.length; i < len; i++) {
+
+                           database.models.articleTag.create({
+                               articleID: articleTitleTag.articleID,
+                               tagID: data[i]
+
+                           });
+                       }
+
+
+                    res.render('admin/newArticle', {success: 'Creation with success'});
+
+
                 });
-                res.render('admin/newCategory', {success: 'Creation with success'});
+
 
             }
             else{
@@ -63,14 +105,89 @@ router.post('/createArticle', function(req,res) {
 
 });
 
-/*t('/updateArticle', function(req,res){
 
-    return database.models.category.findOne({where: {name: req.body.categorySelect} }).then( categoryID => {
-        console.log(categoryID);
-        res.render('admin/updateArticle', {title: 'Update article',categoryID});
+
+router.get('/updateArticle', function(req,res){
+    console.log("updateArticle");
+    return database.models.article.findAll({where: {articleID: req.query.id},include: [{ model: database.models.tag  }]}).then( articleTag => {
+            const image = Buffer.from(articleTag[0].image, 'base64').toString('base64');
+            articleTag[0].image = image;
+            res.render('admin/updateArticle', {titleArt: 'Update article', titleArtDesc: "Please enter informations to update article", articleTag });
     });
 });
 
-*/
+router.post('/articleUpdated', function(req,res){
+    console.log("articleUpdated");
+
+    if ( (validator.isEmpty(req.body.desc) || validator.isEmpty(req.body.titre)) ) {
+        console.log("articleUpdated");
+        return database.models.article.findAll({
+            where: {articleID: req.body.articleID},
+            include: [{model: database.models.tag}]
+        }).then(articleTag => {
+            const image = Buffer.from(articleTag[0].image, 'base64').toString('base64');
+            articleTag[0].image = image;
+
+            if (validator.isEmpty(req.body.titre)) {
+
+                res.render('admin/updateArticle', {titleArt: 'Update article',  titleArtDesc: "Please enter informations to update article", error: 'Title is empty', articleTag});
+            }
+            else if (validator.isEmpty(req.body.desc)) {
+                res.render('admin/updateArticle', {titleArt: 'Update article', titleArtDesc: "Please enter informations to update article",  error: 'Description is empty', articleTag});
+            }
+        });
+    }
+    else{
+
+        console.log("current updated");
+        let base64pictureArticle;
+        if(req.files.file) {
+            base64pictureArticle = Buffer.from(req.files.file.data).toString('base64');
+        }else{
+
+            base64pictureArticle = req.body.imageDISP;
+        }
+
+        database.models.article.update({
+            title: req.body.titre,
+            description: req.body.desc,
+            image: base64pictureArticle,
+            userID: req.session.ID
+        },{
+            where: { articleID: req.body.articleID}
+        });
+        if(!validator.isEmpty(req.body.tag)){
+
+            var data = req.body.tagloopid;
+
+            for (var i = 0, len = data.length; i < len; i++) {
+
+                database.models.articleTag.create({
+                    articleID: req.body.articleID,
+                    tagID: data[i]
+
+                });
+            }
+        }
+
+        res.render('admin/updateArticle', {titleArt: 'Update article', success: 'Article is updated'});
+
+
+    };
+});
+
+router.get('/deleteArticle', function(req,res){
+    console.log("articleUpdated");
+    database.models.articleTag.destroy({
+        where: {  articleID: req.query.id}
+    });
+    database.models.article.destroy({
+        where: {  articleID: req.query.id}
+    });
+    res.redirect('/article');
+
+});
+
+
 
 module.exports = router;

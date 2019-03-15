@@ -16,8 +16,12 @@ const databaseService = {
         this.models.category=require('../model/category')(this.sequelize, this.models, type);
         this.models.tag=require('../model/tag')(this.sequelize, this.models, type);
         this.models.commentary=require('../model/commentary')(this.sequelize, this.models, type);
+        this.models.articleTag=require('../model/articleTag')(this.sequelize, this.models, type);
 
 
+        this.models.article.associate(this.models);
+        this.models.tag.associate(this.models);
+        this.models.commentary.associate(this.models);
 
 
 

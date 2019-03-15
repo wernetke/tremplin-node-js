@@ -6,6 +6,19 @@ const database =require('../services/sequelize');
 /* GET home page. */
 
     router.get('/', function (req, res) {
+        /*return database.models.article.findAll({include: [{model: database.models.tag}]}).then(articleTag => {
+            // return database.models.category.findOne({where: {id : articleTag.categoryID}}).then((category_art) => {
+            return database.models.category.findAll().then((category_display) => {
+                for (var i = 0, len = articleTag.length; i < len; i++) {
+                    const image = Buffer.from(articleTag[i].image, 'base64').toString('base64');
+                    articleTag[i].image = image;
+                }
+
+
+                res.render('index', {category_display, articleTag});
+            });
+        });
+        // });*/
 
         return database.models.category.findAll().then( (category_display) => {
 
@@ -15,14 +28,40 @@ const database =require('../services/sequelize');
     });
 
     router.get('/adminArticle', function(req,res){
-        console.log("ok");
-        res.render('admin/article', {title: 'List of article'});
+
+        if(req.session.role === 1){
+
+                return database.models.article.findAll().then( (select_article) => {
+                    for (var i = 0, len = select_article.length; i < len; i++) {
+                        const image = Buffer.from(select_article[i].image, 'base64').toString('base64');
+                        select_article[i].image = image;
+                        console.log(select_article[i].image);
+                    }
+
+
+                res.render('admin/article', {title:'List of article' , select_article});
+            });
+        }
+        else{
+
+            res.redirect('/index');
+
+        }
     });
     router.get('/adminCategory', function(req,res){
-        return database.models.category.findAll().then( (select_category) => {
+
+        if(req.session.role === 1){
+
+            return database.models.category.findAll().then( (select_category) => {
 
             res.render('admin/category', {title: 'List of category', select_category});
         });
+        }
+        else{
+
+            res.redirect('/index');
+
+        }
     });
 
 

@@ -14,6 +14,35 @@
 
 
             <div class="row">
+{{#each articleTag}}
+
+        <div class="col-md-6 col-lg-12" align="center">
+        <form method="post" action="/article/displayArticle">
+            {{#each Tags}}
+                <button  value="{{tagID}}"  id="{{tagID}}" name='tagloopinit' class='btn_sel btn btn-primary'> {{name}} </button>
+            {{/each}}
+
+                    <div class="col-md-12">
+
+                        <h1>{{title}}</h1>
+
+
+                    </div>
+
+                    <input type="hidden" id="art_id" name="art_id" value="{{articleID}}" required>
+
+                    <div id="imageBox2">
+                        <img class="imageBox2" src="data:image/(png|gif|jpeg);base64,{{image}}" width="300" heigth="200">
+                    </div>
+
+                    <div class="col-md-12">
+                        <h2>{{description}}</h2>
+                    </div>
+
+                </form>
+        </div>
+
+{{/each}}
 
 
 

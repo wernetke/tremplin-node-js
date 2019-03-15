@@ -10,7 +10,7 @@
             <label for="title">Title:</label>
         </div>
         <div class="col-md-12">
-            <input type="text" id="title" name="title" required>
+            <input type="text" id="title" name="title" >
         </div></br>
 
         <select id="cat-select" name="categorySelect">
@@ -23,14 +23,25 @@
             <label for="desc">Description:</label>
         </div>
         <div class="col-md-12">
-            <input type="text" id="desc" name="desc" required>
+            <input type="text" id="desc" name="desc" >
         </div></br>
+        <div class="col-md-12">
+            <label for="desc">Tag:</label>
+        </div>
+        <div id="container_tag">
+        </div></br>
+
+
+        <div class="col-md-12">
+            <input type="text" id="tag" name="tag" >
+        </div></br>
+        <button class="btn-success" id="add_btn" >Add Tag</button>
 
         <div class="col-md-12">
             <label for="file">Picture:</label>
         </div>
         <div class="col-md-12">
-            <input type="file" name="file" required>
+            <input type="file" name="file" >
         </div></br>
 
         <input type="submit" value="Envoi">
@@ -39,3 +50,34 @@
     <h2>{{success}}</h2>
     <h2>{{error}}</h2>
 </div>
+
+<script>
+    let buttonTag = "";
+    let inputTagHidden = "";
+
+    $('#add_btn').click(function(event) {
+        event.preventDefault();
+
+
+        $.ajax({
+            type: 'POST',
+            data: {tag: $('#tag').val()},
+            url: '/article/createTag',
+        }).done((newtag) => {
+
+
+            buttonTag = "<button type='button' value= " + newtag.tag.tagID + " id= " + newtag.tag.tagID + " name='tagloop' class='btn_sel btn btn-primary'>" + newtag.tag.name + "</button>";
+                inputTagHidden = "<input type='hidden' name='tagloopid' value=" + newtag.tag.tagID + " class='btn btn-primary'>"
+
+
+            $('#container_tag').append(buttonTag);
+            $('#container_tag').append(inputTagHidden);
+
+            });
+        });
+
+
+
+
+
+</script>

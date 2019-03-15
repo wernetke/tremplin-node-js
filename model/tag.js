@@ -2,13 +2,20 @@
 module.exports = (sequelize, models, DataTypes) => {
     var Tag = sequelize.define('Tag', {
         name: DataTypes.STRING,
-        articleID: DataTypes.INTEGER
+        tagID: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        }
     });
 
     Tag.associate = function(models) {
-        Tag.hasMany(models.tag, {
-            foreignKey: 'id',
-            sourceKey: 'articleID'
+
+        Tag.belongsToMany(models.article, {
+            through: models.articleTag,
+            foreignKey: "tagID",
+            otherKey: "articleID"
+
         });
     };
 

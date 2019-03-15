@@ -14,7 +14,7 @@ module.exports = (sequelize, models, DataTypes) => {
             foreignKey: 'id',
             sourceKey: 'userId'
         });
-        Commentary.belongsTo(models.category, {
+        Commentary.belongsTo(models.article, {
             foreignKey: 'id',
             sourceKey: 'articleID'
         });

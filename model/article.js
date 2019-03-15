@@ -5,7 +5,12 @@ module.exports = (sequelize, models, DataTypes) => {
         description: DataTypes.STRING,
         image: DataTypes.TEXT,
         userID: DataTypes.INTEGER,
-        categoryID: DataTypes.INTEGER
+        categoryID: DataTypes.INTEGER,
+        articleID: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        }
 
 
 
@@ -19,6 +24,11 @@ module.exports = (sequelize, models, DataTypes) => {
         Article.belongsTo(models.category, {
             foreignKey: 'id',
             sourceKey: 'categoryID'
+        });
+        Article.belongsToMany(models.tag, {
+            through: models.articleTag,
+            foreignKey: "articleID",
+            otherKey: "tagID"
         });
 
     };

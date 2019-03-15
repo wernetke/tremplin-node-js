@@ -1,0 +1,118 @@
+<h1>{{titleArt}}</h1>
+
+<p> {{titleArtDesc}}</p>
+<div class="col-md-12" align="center">
+    {{#each articleTag}}
+        <form method="post" enctype="multipart/form-data" action="/article/articleUpdated">
+
+
+
+
+            <div class="col-md-12">
+                Title: <input type="text" id="titre" name="titre"  value="{{title}}">
+
+            </div>
+            </br>
+
+            <div class="col-md-12">
+                Description: <input type="text" id="desc" name="desc" placeholder="description" value="{{description}}">
+
+            </div>
+            </br>
+
+            <div class="col-md-12" id="container_tag">
+                (Click on if you want delete) CurrentTag:
+                {{#each Tags}}
+                    <button  value="{{tagID}}"  id="{{tagID}}" name='tagloopinit' class='btn_sel btn btn-primary'> {{name}} </button>
+                {{/each}}
+            </div>
+            </br>
+
+
+            </br>
+            <input type="hidden" id="imageDISP" name="imageDISP" value="{{image}}">
+
+            <input type="hidden" id="articleID" name="articleID" value="{{articleID}}">
+
+
+
+            <div class="col-md-12">
+                Tag: <input type="text" id="tag" name="tag">
+            </div>
+            </br>
+            <button class="btn btn-success" id="add_btn">Add Tag</button>
+
+            <div id="imageBox2">
+                <img class="imageBox2" src="data:image/(png|gif|jpeg);base64,{{image}}" width="300" heigth="200">
+            </div>
+
+            <div class="col-md-12">
+                <label for="file"> New Picture:</label>
+            </div>
+            <div class="col-md-12">
+                <input type="file" name="file">
+            </div>
+            </br>
+
+            <button  class="btn btn-success" id="update_art">Update</button>
+
+
+        </form>
+    {{/each}}
+    <h2>{{success}}</h2>
+    <h2>{{error}}</h2>
+</div>
+
+<script>
+    let buttonTag = "";
+    let inputTagHidden = "";
+
+
+    function del_Tag_Ajax(){
+        $('.btn_sel').click(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                data: {tagID: $(this).val(), articleID:$('#articleID').val() },
+                url: '/article/deleteTag',
+            }).done((deltag) => {
+                document.getElementById(deltag).style.display = "none";
+            });
+
+
+        });
+
+    }
+
+
+    $('#add_btn').click(function (event) {
+        event.preventDefault();
+
+
+        $.ajax({
+            type: 'POST',
+            data: {tag: $('#tag').val()},
+            url: '/article/createTag',
+        }).done((newtag) => {
+
+
+            buttonTag = "<button type='button' value= " + newtag.tag.tagID + " id= " + newtag.tag.tagID + " name='tagloop' class='btn_sel btn btn-primary'>" + newtag.tag.name + "</button>";
+            inputTagHidden = "<input type='hidden' name='tagloopid' value=" + newtag.tag.tagID + " class='btn btn-primary'>"
+
+
+            $('#container_tag').append(buttonTag);
+            $('#container_tag').append(inputTagHidden);
+            del_Tag_Ajax();
+
+
+        });
+    });
+
+
+
+    del_Tag_Ajax();
+
+
+
+</script>

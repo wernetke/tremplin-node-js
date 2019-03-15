@@ -12,7 +12,6 @@ const articleRouter =  require ('./routes/article');
 const categoryRouter =  require ('./routes/category');
 
 
-
 var app = express();
 app.engine('.ejs', require('ejs').__express);
 
@@ -91,9 +90,6 @@ function checkAdmin(req,res,next){
         next();
     }
 }
-
-
-
 
 
 // catch 404 and forward to error handler
