@@ -74,9 +74,9 @@ router.post('/createArticle', function(req,res) {
                return database.models.article.create({
                     title: req.body.title,
                     description: req.body.desc,
-                    categoryID: req.body.categorySelect,
+                    CategoryId: req.body.categorySelect,
                     image: base64pictureArticle,
-                    userID: req.session.ID
+                    UserId: req.session.ID
 
                 }).then( (articleTitleTag) => {
                        for (var i = 0, len = data.length; i < len; i++) {
@@ -87,17 +87,21 @@ router.post('/createArticle', function(req,res) {
 
                            });
                        }
+                   return database.models.category.findAll().then( (select_category) => {
 
+                    res.render('admin/newArticle', {success: 'Creation with success', select_category});
 
-                    res.render('admin/newArticle', {success: 'Creation with success'});
-
-
+                   });
                 });
 
 
             }
             else{
-                res.render('admin/newCategory',{error: 'This article already exists'} );
+
+                return database.models.category.findAll().then( (select_category) => {
+
+                res.render('admin/newCategory',{error: 'This article already exists', select_category} );
+                });
 
             }
         });
@@ -188,6 +192,24 @@ router.get('/deleteArticle', function(req,res){
 
 });
 
+
+router.post('/createComm', function(req,res){
+    console.log("createComm");
+    if ( !validator.isEmpty(req.body.comment)) {
+        return database.models.commentary.create({
+            description: req.body.comment,
+            UserId: req.session.ID,
+            ArticleArticleID: req.body.art_id,
+            raw:true
+
+        }).then((comment) => {
+            res.send({comment});
+        });
+    }
+
+
+
+});
 
 
 module.exports = router;

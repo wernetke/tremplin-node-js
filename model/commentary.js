@@ -2,22 +2,20 @@
 module.exports = (sequelize, models, DataTypes) => {
     var Commentary = sequelize.define('Commentary', {
         description: DataTypes.STRING,
-        userID: DataTypes.INTEGER,
-        articleID: DataTypes.INTEGER
 
 
 
     });
 
     Commentary.associate = function(models) {
-        Commentary.belongsTo(models.user, {
+        Commentary.belongsTo(models.user);/*, {
             foreignKey: 'id',
             sourceKey: 'userId'
-        });
-        Commentary.belongsTo(models.article, {
+        });*/
+        Commentary.belongsTo(models.article);/*, {
             foreignKey: 'id',
             sourceKey: 'articleID'
-        });
+        });*/
 
     };
     return Commentary;

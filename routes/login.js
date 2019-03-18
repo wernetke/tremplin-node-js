@@ -16,7 +16,7 @@ router.post('/signSave', function (req,res){
 
 
 
-        if (userLogin.length < 1)
+        if (!userLogin)
         {
             res.render('login', {error: 'Your username is wrong'});
 

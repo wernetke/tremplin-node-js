@@ -1,0 +1,104 @@
+<div class="container-fluid" style="padding: 15px">
+    <div class="row row-offcanvas row-offcanvas-right">
+        <div class="col-xs-6 col-sm-3 col-sm-pull-9 sidebar-offcanvas"
+             id="sidebar">
+            <div class="link_category list-group">
+                <button class="list-group-item active">Category</button>
+                {{#each category_display}}
+                    <a class="list-group-item" href="#">{{name}}</a>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-9 col-sm-push-3">
+
+
+            <div class="row">
+
+                <div class=" pannel_cat_tag col-md-12 col-lg-12">
+                    <div class="pannel_cat_tag col-lg-4 offset-lg-2">
+                        <button value="{{articleTag.Category.name}}" id="{{articleTag.Category.id}}" name='btn_cat'
+                                class='btn_sel_index btn'> {{articleTag.Category.name}} </button>
+
+                        {{#each articleTag.Tags}}
+                            <button value="{{name}}" id="{{name}}" name='btn_tag'
+                                    class='btn_tag_index btn'> {{name}} </button>
+                        {{/each}}
+                    </div>
+                </div>
+
+                <div class="index_art col-lg-8 offset-lg-2 col-md-8 offset-md-2" align="center">
+                    <div id="title_index" class="col-md-12">
+                        <h1>{{articleTag.title}}</h1>
+                    </div>
+
+                    <input type="hidden" id="art_id" name="art_id" value="{{articleTag.articleID}}" required>
+
+                    <div id="imageBox2">
+                        <img class="imageBox2" src="data:image/(png|gif|jpeg);base64,{{articleTag.image}}" width="300"
+                             heigth="200">
+                    </div>
+
+                    <div id="desc_index" class="col-md-12">
+                        <p>{{articleTag.description}}</p>
+                    </div>
+
+                    <div id="author_index" class="col-md-12" align="left">
+                        <div id="author_index">
+                            <p>Author: {{articleTag.User.username}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="back_comm_title" class="pannel_cat_tag col-lg-8 offset-lg-2  col-md-8 offset-md-2">
+                    <div id="title_comm" class="col-md-4 col-lg-4">
+                        <p>Commentary</p>
+                    </div>
+                </div>
+
+                <div class="pannel_cat_tag col-lg-8 offset-lg-2  col-md-8 offset-md-2">
+                        <input class="input_css" type="text" id="comment" name="comment" placeholder="Let a commentary">
+                </div>
+                <div class="pannel_cat_tag col-lg-8 offset-lg-2  col-md-8 offset-md-2" align="center">
+                    <button id="btn_comment" name='btn_comment' class='btn_sel_index btn'> Comment this article</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+<script>
+
+
+    $('#btn_comment').click(function (event) {
+        event.preventDefault();
+
+
+        $.ajax({
+            type: 'POST',
+            data: {comment: $('#comment').val()},
+            url: '/article/createComm',
+        }).done((newtag) => {
+
+
+            buttonTag = "<button type='button' value= " + newtag.tag.tagID + " id= " + newtag.tag.tagID + " name='tagloop' class='btn_sel btn btn-primary'>" + newtag.tag.name + "</button>";
+            inputTagHidden = "<input type='hidden' name='tagloopid' value=" + newtag.tag.tagID + " class='btn btn-primary'>"
+
+
+            $('#container_tag').append(buttonTag);
+            $('#container_tag').append(inputTagHidden);
+            del_Tag_Ajax();
+
+
+        });
+    });
+
+
+</script>
+
+

@@ -6,24 +6,18 @@ const database =require('../services/sequelize');
 /* GET home page. */
 
     router.get('/', function (req, res) {
-        /*return database.models.article.findAll({include: [{model: database.models.tag}]}).then(articleTag => {
-            // return database.models.category.findOne({where: {id : articleTag.categoryID}}).then((category_art) => {
-            return database.models.category.findAll().then((category_display) => {
-                for (var i = 0, len = articleTag.length; i < len; i++) {
-                    const image = Buffer.from(articleTag[i].image, 'base64').toString('base64');
-                    articleTag[i].image = image;
-                }
+       return database.models.article.findAll({include: [{model: database.models.tag}, {model: database.models.category},  {model: database.models.user}]}).then(articleTag => {
 
 
-                res.render('index', {category_display, articleTag});
+                return database.models.category.findAll().then((category_display) => {
+                    for (var i = 0, len = articleTag.length; i < len; i++) {
+                        const image = Buffer.from(articleTag[i].image, 'base64').toString('base64');
+                        articleTag[i].image = image;
+                    }
+
+                    res.render('index', {category_display, articleTag });
+                });
             });
-        });
-        // });*/
-
-        return database.models.category.findAll().then( (category_display) => {
-
-            res.render('index', {category_display});
-        });
 
     });
 
@@ -63,6 +57,28 @@ const database =require('../services/sequelize');
 
         }
     });
+
+router.get('/display_article', function(req,res){
+    console.log("display_article");
+    return database.models.article.findOne({
+            where:{
+                articleID: req.query.id
+            },
+        include:
+                [{model: database.models.tag}, {model: database.models.category},  {model: database.models.user}]}).then(articleTag => {
+
+
+        return database.models.category.findAll().then((category_display) => {
+            for (var i = 0, len = articleTag.length; i < len; i++) {
+                const image = Buffer.from(articleTag[i].image, 'base64').toString('base64');
+                articleTag[i].image = image;
+            }
+
+            res.render('articleFile', {category_display, articleTag });
+        });
+    });
+});
+
 
 
 

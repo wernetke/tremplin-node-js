@@ -2,10 +2,10 @@
     <div class="row row-offcanvas row-offcanvas-right">
         <div class="col-xs-6 col-sm-3 col-sm-pull-9 sidebar-offcanvas"
              id="sidebar">
-            <div class="list-group">
-                <button  class="list-group-item active">Category</button>
+            <div class="link_category list-group">
+                <button class="list-group-item active">Category</button>
                 {{#each category_display}}
-                    <a class="list-group-item" href="#" >{{name}}</a>
+                    <a class="list-group-item" href="#">{{name}}</a>
                 {{/each}}
             </div>
         </div>
@@ -14,35 +14,47 @@
 
 
             <div class="row">
-{{#each articleTag}}
+                {{#each articleTag}}
+                    <div class="pannel_cat_tag col-md-12 col-lg-12">
+                        <div class="pannel_cat_tag col-lg-4 offset-lg-2">
+                            <button value="{{Category.name}}" id="{{Category.id}}" name='btn_cat'
+                                    class='btn_sel_index btn'> {{Category.name}} </button>
 
-        <div class="col-md-6 col-lg-12" align="center">
-        <form method="post" action="/article/displayArticle">
-            {{#each Tags}}
-                <button  value="{{tagID}}"  id="{{tagID}}" name='tagloopinit' class='btn_sel btn btn-primary'> {{name}} </button>
-            {{/each}}
-
-                    <div class="col-md-12">
-
-                        <h1>{{title}}</h1>
-
-
+                            {{#each Tags}}
+                                <button value="{{name}}" id="{{name}}" name='btn_tag'
+                                        class='btn_tag_index btn'> {{name}} </button>
+                            {{/each}}
+                        </div>
                     </div>
 
-                    <input type="hidden" id="art_id" name="art_id" value="{{articleID}}" required>
+                    <div  class="index_art col-lg-8 offset-lg-2 col-md-8 offset-md-2" align="center">
+                        <a id="link_art_disp" href="/index/display_article?id={{articleID}}">
+                                <div id="title_index" class="col-md-12">
+                                    <h1>{{title}}</h1>
+                                </div>
 
-                    <div id="imageBox2">
-                        <img class="imageBox2" src="data:image/(png|gif|jpeg);base64,{{image}}" width="300" heigth="200">
+                                <input type="hidden" id="art_id" name="art_id" value="{{articleID}}" required>
+
+                                <div id="imageBox2">
+                                    <img class="imageBox2" src="data:image/(png|gif|jpeg);base64,{{image}}" width="300"
+                                         heigth="200">
+                                </div>
+
+                                <div id="desc_index" class="col-md-12">
+                                    <p>{{description}}</p>
+                                </div>
+
+                                <div id="author_index" class="col-md-12" align="left">
+                                    <div id="author_index" >
+                                     <p>Author: {{User.username}}</p>
+                                    </div>
+                                </div>
+
+                        </a>
                     </div>
 
-                    <div class="col-md-12">
-                        <h2>{{description}}</h2>
-                    </div>
 
-                </form>
-        </div>
-
-{{/each}}
+                {{/each}}
 
 
 

@@ -4,8 +4,6 @@ module.exports = (sequelize, models, DataTypes) => {
         title: DataTypes.STRING,
         description: DataTypes.STRING,
         image: DataTypes.TEXT,
-        userID: DataTypes.INTEGER,
-        categoryID: DataTypes.INTEGER,
         articleID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -17,14 +15,14 @@ module.exports = (sequelize, models, DataTypes) => {
     });
 
     Article.associate = function(models) {
-        Article.belongsTo(models.user, {
+        Article.belongsTo(models.user);/*, {
             foreignKey: 'id',
             sourceKey: 'userId'
-        });
-        Article.belongsTo(models.category, {
+        });*/
+        Article.belongsTo(models.category);/*, {
             foreignKey: 'id',
             sourceKey: 'categoryID'
-        });
+        });*/
         Article.belongsToMany(models.tag, {
             through: models.articleTag,
             foreignKey: "articleID",
