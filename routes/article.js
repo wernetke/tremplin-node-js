@@ -196,18 +196,52 @@ router.get('/deleteArticle', function(req,res){
 router.post('/createComm', function(req,res){
     console.log("createComm");
     if ( !validator.isEmpty(req.body.comment)) {
-        return database.models.commentary.create({
-            description: req.body.comment,
-            UserId: req.session.ID,
-            ArticleArticleID: req.body.art_id,
-            raw:true
+       if(req.session.role === 1){
+           return database.models.commentary.create({
+               description: req.body.comment,
+               UserId: req.session.ID,
+               ArticleArticleID: req.body.art_id,
+               raw:true
 
-        }).then((comment) => {
-            res.send({comment});
-        });
+           }).then((comment) => {
+
+               return database.models.user.findOne({
+                   where: {id: comment.UserId},
+
+               }).then(UserComm => {
+
+                   res.send({comment, UserComm});
+               });
+           });
+       }
+       else{
+
+           return database.models.commentary.create({
+               description: req.body.comment,
+               ArticleArticleID: req.body.art_id,
+               raw:true
+
+           }).then((comment) => {
+
+               res.send({comment});
+
+           });
+
+       }
+
     }
 
+});
 
+router.post('/deleteComm', function(req,res){
+    console.log("deleteComm");
+
+    const commIDsend =  req.body.comID;
+    console.log(commIDsend);
+    database.models.commentary.destroy({
+        where: {  id:commIDsend }
+    });
+    res.send(commIDsend);
 
 });
 

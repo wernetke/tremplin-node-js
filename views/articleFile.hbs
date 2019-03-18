@@ -49,20 +49,68 @@
                         </div>
                     </div>
                 </div>
-                <div id="back_comm_title" class="pannel_cat_tag col-lg-8 offset-lg-2  col-md-8 offset-md-2">
-                    <div id="title_comm" class="col-md-4 col-lg-4">
+                <div id="back_comm_title"
+                     class="pannel_cat_tag col-lg-8 offset-lg-2  col-md-8 offset-md-2  col-sm-7 offset-sm-3   col-xs-7 offset-xs-3">
+                    <div id="title_comm" class="col-md-5 col-lg-4 col-xs-5 col-sm-5">
                         <p>Commentary</p>
                     </div>
                 </div>
 
                 <div class="pannel_cat_tag col-lg-8 offset-lg-2  col-md-8 offset-md-2">
-                        <input class="input_css" type="text" id="comment" name="comment" placeholder="Let a commentary">
+                    <input class="input_css" type="text" id="comment" name="comment" placeholder="Let a commentary">
                 </div>
                 <div class="pannel_cat_tag col-lg-8 offset-lg-2  col-md-8 offset-md-2" align="center">
                     <button id="btn_comment" name='btn_comment' class='btn_sel_index btn'> Comment this article</button>
                 </div>
+                <div class="pannel_cat_tag col-lg-8 offset-lg-2  col-md-8 offset-md-2">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Commentary</th>
+                                <th>date</th>
+                                {{#if checkconnexion}}
+                                    {{#if checkAdmin}}
+                                        <th>Action</th>
+                                    {{/if}}
+                                {{/if}}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <div id="container_comment">
+                            </div>
+                            {{#each commentaryList}}
+                                <tr>
+                                    {{#if User.username}}
+                                        <td>{{User.username}}</td>
+                                    {{else}}
+                                        <td>Anonymous</td>
+                                    {{/if}}
+
+                                    <td>{{description}}</td>
+                                    <td>{{createdAt}}</td>
 
 
+                                    {{#if checkconnexion}}
+                                        {{#if checkAdmin}}
+
+                                            <td>
+                                                <button value="{{id}}" name='btn_cat'
+                                                        class='btn_sel_index btn_sel_cancel btn'> Delete
+                                                </button>
+                                            </td>
+                                        {{/if}}
+                                    {{/if}}
+
+                                </tr>
+                            {{/each}}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
 
             </div>
         </div>
@@ -74,6 +122,22 @@
 </div>
 <script>
 
+    function del_Com_Ajax() {
+        $('.btn_sel_cancel').click(function (event) {
+            event.preventDefault();
+
+
+            $.ajax({
+                type: 'POST',
+                data: {comID: $(this).val()},
+                url: '/article/deleteComm',
+            }).done((delComment) => {
+                $(this).parent().parent().remove();
+
+            });
+        });
+    }
+
 
     $('#btn_comment').click(function (event) {
         event.preventDefault();
@@ -81,22 +145,32 @@
 
         $.ajax({
             type: 'POST',
-            data: {comment: $('#comment').val()},
+            data: {comment: $('#comment').val(), art_id: $('#art_id').val()},
             url: '/article/createComm',
-        }).done((newtag) => {
+        }).done((newComment) => {
+            let commentDesc = "";
+            commentDesc += "<tr>"
+            if (newComment.comment.UserId === null) {
+                commentDesc += "<td>Anonymous</td>";
 
 
-            buttonTag = "<button type='button' value= " + newtag.tag.tagID + " id= " + newtag.tag.tagID + " name='tagloop' class='btn_sel btn btn-primary'>" + newtag.tag.name + "</button>";
-            inputTagHidden = "<input type='hidden' name='tagloopid' value=" + newtag.tag.tagID + " class='btn btn-primary'>"
-
-
-            $('#container_tag').append(buttonTag);
-            $('#container_tag').append(inputTagHidden);
-            del_Tag_Ajax();
+            } else {
+                commentDesc += "<td>" + newComment.UserComm.username + " </td>";
+            }
+            commentDesc += "<td>" + newComment.comment.description + " </td>";
+            commentDesc += "<td>" + newComment.comment.createdAt + " </td>";
+            if (newComment.comment.UserId != null) {
+                commentDesc += "<td> <button  value=" + newComment.comment.id + "  name='btn_cat' class='btn_sel_index btn_sel_cancel btn'> Delete </button>  </td>";
+            }
+            commentDesc += "</tr>"
+            $('.table tbody').append(commentDesc);
+            del_Com_Ajax();
 
 
         });
     });
+
+    del_Com_Ajax();
 
 
 </script>
