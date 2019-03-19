@@ -70,10 +70,8 @@
                                 <th>Username</th>
                                 <th>Commentary</th>
                                 <th>date</th>
-                                {{#if checkconnexion}}
-                                    {{#if checkAdmin}}
-                                        <th>Action</th>
-                                    {{/if}}
+                                {{#if checkAdmin}}
+                                    <th>Action</th>
                                 {{/if}}
                             </tr>
                             </thead>
@@ -90,17 +88,12 @@
 
                                     <td>{{description}}</td>
                                     <td>{{createdAt}}</td>
-
-
-                                    {{#if checkconnexion}}
-                                        {{#if checkAdmin}}
-
-                                            <td>
-                                                <button value="{{id}}" name='btn_cat'
-                                                        class='btn_sel_index btn_sel_cancel btn'> Delete
-                                                </button>
-                                            </td>
-                                        {{/if}}
+                                    {{#if ../checkAdmin}}
+                                        <td>
+                                            <button value="{{id}}" name='btn_cat'
+                                                    class='btn_sel_index btn_sel_cancel btn'> Delete
+                                            </button>
+                                        </td>
                                     {{/if}}
 
                                 </tr>

@@ -10,10 +10,16 @@ const loginRouter = require ('./routes/login');
 const logoutRouter = require ('./routes/logout');
 const articleRouter =  require ('./routes/article');
 const categoryRouter =  require ('./routes/category');
+const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
+
+
 
 
 var app = express();
-app.engine('.ejs', require('ejs').__express);
+
+
+
 
 let options = {
     name: 'Cookie',
@@ -27,10 +33,12 @@ app.use(checkConnexion);
 app.use(checkAdmin);
 
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
 app.set('view engine', 'hbs');
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -39,8 +47,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-
-
 app.use('/index', indexRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
@@ -50,6 +56,25 @@ app.use('/enableAccount', registerRouter);
 app.use('/category', categoryRouter);
 app.use('/article', articleRouter);
 app.use('/admin', indexRouter);
+
+
+
+Handlebars.registerHelper('debug', function(optionalValue){
+
+    console.log("Current Context");
+    console.log("====================");
+    console.log(this);
+    if (optionalValue) {
+        console.log("Value");
+        console.log("====================");
+        console.log(optionalValue);
+    }
+});
+
+
+
+
+
 
 
 //sequelize
@@ -74,6 +99,7 @@ function checkConnexion(req,res,next){
     else{
         app.locals.hello = req.session.username;
         app.locals.checkconnexion = true;
+        app.locals.choucroute= true;
         next();
     }
 }
@@ -90,6 +116,8 @@ function checkAdmin(req,res,next){
         next();
     }
 }
+
+
 
 
 // catch 404 and forward to error handler

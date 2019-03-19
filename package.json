@@ -15,7 +15,7 @@
     "express-fileupload": "^1.1.2-alpha.1",
     "express-handlebars": "^3.0.2",
     "express-session": "^1.15.6",
-    "handlebars": "^4.1.0",
+    "handlebars": "^4.1.1",
     "handlebars-intl": "^1.1.2",
     "hbs": "~4.0.1",
     "http-errors": "~1.6.2",

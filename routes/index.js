@@ -58,6 +58,8 @@ router.get('/adminCategory', function (req, res) {
     }
 });
 
+
+
 router.get('/display_article', function (req, res) {
     console.log("display_article");
 
