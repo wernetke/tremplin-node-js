@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../services/sequelize');
+var Sequelize = require('sequelize');
 
-
+const Op = Sequelize.Op;
 /* GET home page. */
 
 router.get('/', function (req, res) {
@@ -85,11 +86,13 @@ router.get('/display_article', function (req, res) {
             }).then(commentaryList => {
 
 
-                res.render('articleFile', {category_display, articleTag, commentaryList});
+                res.render('articleFile', {category_display, articleTag, commentaryList });
             });
         });
     });
 });
+
+
 
 router.get('/categoryList', function (req, res) {
 
@@ -113,11 +116,11 @@ router.get('/categoryList', function (req, res) {
 router.post('/search', function (req, res) {
 
     return database.models.article.findAll({
-        where: {$or: {
-                title:  {$like: '%' + req.body.Search + '%'},
+        where: { [Op.or]: [{
+                title:  {[Op.like]: '%' + req.body.Search + '%'}},
 
-                description: {$like: '%' + req.body.Search + '%'}
-            }},
+                {description: {[Op.like]: '%' + req.body.Search + '%'}}
+            ]},
         include:
             [{model: database.models.tag}, {model: database.models.category}, {model: database.models.user}]
     }).then(articleFound => {
