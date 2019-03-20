@@ -59,7 +59,6 @@ router.get('/adminCategory', function (req, res) {
 });
 
 
-
 router.get('/display_article', function (req, res) {
     console.log("display_article");
 
@@ -86,11 +85,52 @@ router.get('/display_article', function (req, res) {
             }).then(commentaryList => {
 
 
-                res.render('articleFile', {category_display, articleTag, commentaryList });
+                res.render('articleFile', {category_display, articleTag, commentaryList});
             });
         });
     });
 });
+
+router.get('/categoryList', function (req, res) {
+
+    return database.models.article.findAll({
+        where: {
+            CategoryId: req.query.id
+        },
+        include:
+            [{model: database.models.tag}, {model: database.models.category}, {model: database.models.user}]
+    }).then(articleTag => {
+        return database.models.category.findAll().then((category_display) => {
+            for (var i = 0, len = articleTag.length; i < len; i++) {
+                const image = Buffer.from(articleTag[i].image, 'base64').toString('base64');
+                articleTag[i].image = image;
+            }
+            res.render('articleCatList', {category_display, articleTag});
+        });
+    });
+});
+
+router.post('/search', function (req, res) {
+
+    return database.models.article.findAll({
+        where: {$or: {
+                title:  {$like: '%' + req.body.Search + '%'},
+
+                description: {$like: '%' + req.body.Search + '%'}
+            }},
+        include:
+            [{model: database.models.tag}, {model: database.models.category}, {model: database.models.user}]
+    }).then(articleFound => {
+        return database.models.category.findAll().then((category_display) => {
+            for (var i = 0, len = articleFound.length; i < len; i++) {
+                const image = Buffer.from(articleFound[i].image, 'base64').toString('base64');
+                articleFound[i].image = image;
+            }
+            res.render('resultSearchArticle', {category_display, articleFound});
+        });
+    });
+});
+
 
 
 module.exports = router;

@@ -10,6 +10,7 @@ const loginRouter = require ('./routes/login');
 const logoutRouter = require ('./routes/logout');
 const articleRouter =  require ('./routes/article');
 const categoryRouter =  require ('./routes/category');
+const userRouter =  require ('./routes/users');
 const exphbs = require('express-handlebars');
 const Handlebars = require('handlebars');
 
@@ -23,10 +24,14 @@ var app = express();
 
 let options = {
     name: 'Cookie',
-    secret: 'cookiesecret'
+    secret: 'cookiesecret',
+    cookie: { maxAge: 60000 }
     //etc
 }
 app.use(session(options));
+
+
+
 
 
 app.use(checkConnexion);
@@ -37,8 +42,6 @@ app.use(checkAdmin);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
 app.set('view engine', 'hbs');
-
-
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -56,6 +59,7 @@ app.use('/enableAccount', registerRouter);
 app.use('/category', categoryRouter);
 app.use('/article', articleRouter);
 app.use('/admin', indexRouter);
+app.use('/dashboard', userRouter);
 
 
 
@@ -69,6 +73,17 @@ Handlebars.registerHelper('debug', function(optionalValue){
         console.log("====================");
         console.log(optionalValue);
     }
+});
+Handlebars.registerHelper('user', function(buttonValue, compareup, compareupAll, options){
+    console.log("register user");
+    if (buttonValue === compareup)
+    {
+        return options.fn(this);
+    }
+    else if (buttonValue === compareupAll){
+        return options.fn(this);
+    }
+
 });
 
 

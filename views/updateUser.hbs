@@ -1,0 +1,45 @@
+<h1>{{title}}</h1>
+<div class="col-md-12" align="center">
+
+    <form method="post" action="/dashboard/updatedSimple">
+        {{#user valueButton "1"  "5"}}
+            <div class="col-md-12 col-lg-12">
+                Username: <input class="input_css_art" type="text" id="username" name="username"
+                                 value="{{userInfo.username}}" required>
+
+            </div>
+        {{/user}}
+        {{#user valueButton "2" "5"}}
+            <div class="col-md-12 col-lg-12">
+                Firstname: <input class="input_css_art" type="text" id="firstname" name="firstname"
+                                  value="{{userInfo.firstname}}" required>
+
+            </div>
+        {{/user}}
+        {{#user valueButton "3" "5"}}
+            <div class="col-md-12 col-lg-12">
+                Lastname: <input class="input_css_art" type="text" id="lastname" name="lastname"
+                                 value="{{userInfo.name}}" required>
+
+            </div>
+        {{/user}}
+        {{#user valueButton "4" "5"}}
+            <div class="col-md-12 col-lg-12">
+                Email: <input class="input_css_art" type="text" id="email" name="email"
+                              value="{{userInfo.email}}" required>
+
+            </div>
+        {{/user}}
+        <div class="linkUPP col-md-6 col-lg-6">
+            <button class="input_css_art btn btn-primary" name="butt" >Update</button>
+        </div>
+
+        <input type="hidden" id="button" name="button"
+               value="{{valueButton}}" required>
+
+
+    </form>
+
+
+    <h2>{{error}}</h2>
+</div>

@@ -21,6 +21,7 @@ body {
   padding: 0 !important;
 }
 
+
 .link_category a{
   text-decoration: none;
 }
@@ -41,16 +42,39 @@ body {
   text-decoration: none;
   opacity: 0.8 ;
 }
-
-.btn_sel_index{
-  background: #000000 ! important;
-  color: #FFF  !important;
-}
-.btn_tag_index{
-  background: #948E8A ! important;
-  color: #FFF  !important;
+.linkCatButton a {
+  padding: 10px 15px;
+  background: #000000;
+  color: #FFF !important;
+  border-radius: 5px;
+  text-decoration: none;
   margin-left: 5px;
+  display:block;
+  float:left;
 }
+
+.linkCatButton  a:hover{
+  text-decoration: none;
+  opacity: 0.8 ;
+}
+
+.linkTagButton a {
+  padding: 10px 15px;
+  background: #948E8A;
+  color: #FFF !important;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-left: 5px;
+  display:block;
+  float:left;
+}
+
+.linkTagButton  a:hover{
+  text-decoration: none;
+  opacity: 0.8 ;
+}
+
+
 .index_art{
   margin-bottom: 20px;
   margin-top: 20px;

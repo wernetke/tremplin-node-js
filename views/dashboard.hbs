@@ -1,0 +1,64 @@
+<h1>{{title}}</h1>
+
+<div class="col-md-12" align="center">
+
+
+    <form method="post" action="/dashboard/upSimple">
+        <div class="col-md-12 col-lg-12">
+            <div class="col-lg-6 col-md-6">
+                Username: <input class="input_css_art" type="text" id="username" name="username"
+                                 value="{{userInfo.username}}" required>
+            </div>
+            <div class="linkUPP col-md-6 col-lg-6">
+                <button class="btn btn-primary" name="butt" value="1">Update</button>
+            </div>
+        </div>
+    </form>
+
+    <form method="post" action="/dashboard/upSimple">
+        <div class="col-md-12 col-lg-12">
+            <div class="col-md-6 col-lg-6">
+                Firstname: <input class="input_css_art" type="text" id="firstname" name="firstname"
+                                  value="{{userInfo.firstname}}" required>
+            </div>
+            <div class="linkUPP col-md-6 col-lg-6">
+                <button class="btn btn-primary" name="butt" value="2">Update</button>
+            </div>
+        </div>
+    </form>
+
+    <form method="post" action="/dashboard/upSimple">
+        <div class="col-md-12 col-lg-12">
+            <div class="col-md-6 col-lg-6">
+                Lastname: <input class="input_css_art" type="text" id="lastname" name="lastname"
+                                 value="{{userInfo.name}}" required>
+            </div>
+            <div class="linkUPP col-md-6 col-lg-6">
+                <button class="btn btn-primary" name="butt" value="3">Update</button>
+            </div>
+        </div>
+    </form>
+
+    <form method="post" action="/dashboard/upSimple">
+        <div class="col-md-12 col-lg-12">
+            <div class="col-md-6 col-lg-6">
+                Email: <input class="input_css_art" type="text" id="email" name="email"
+                              value="{{userInfo.email}}" required>
+            </div>
+            <div class="linkUPP col-md-6 col-lg-6">
+                <button class="btn btn-primary" name="butt" value="4">Update</button>
+            </div>
+        </div>
+    </form>
+    <form method="post" action="/dashboard/upSimple">
+
+        <div class="linkUPP col-md-6 col-lg-6">
+            <button class="input_css_art btn btn-primary" name="butt" value="5">All update</button>
+        </div>
+
+
+    </form>
+
+    <h2>{{success}}</h2>
+    <h2>{{error}}</h2>
+</div>

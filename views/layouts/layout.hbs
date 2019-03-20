@@ -33,10 +33,10 @@
               <li class="nav-item-right">
                   <a class="nav-link" href="/register">Register</a>
               </li>
-              <li class="nav-item-right">
-                  <a class="nav-link" href="/dashboard">Dashboard</a>
-              </li>
               {{#if checkconnexion}}
+                  <li class="nav-item-right">
+                      <a class="nav-link" href="/dashboard">Dashboard</a>
+                  </li>
                   {{#if checkAdmin}}
 
               <li class="nav-item-right">
@@ -55,8 +55,8 @@
               </form>
 
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <form class="form-inline my-2 my-lg-0" method="post" action="/index/search">
+              <input class="form-control mr-sm-2" type="search" name="Search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
       </div>
